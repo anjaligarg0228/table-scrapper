@@ -15,18 +15,10 @@ jobs:
           node-version: '20'
       
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       
       - name: Run scraper for 22f2000850@ds.study.iitm.ac.in
         run: node scrape.js
-      
-      - name: Upload logs if failed
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: logs
-          path: |
-            *.log
