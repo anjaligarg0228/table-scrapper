@@ -1,0 +1,32 @@
+name: Scrape Table Sums
+
+on: [push, workflow_dispatch]
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Chintan Sunil 22f2000850@ds.study.iitm.ac.in
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      
+      - name: Run scraper for 22f2000850@ds.study.iitm.ac.in
+        run: node scrape.js
+      
+      - name: Upload logs if failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: |
+            *.log
